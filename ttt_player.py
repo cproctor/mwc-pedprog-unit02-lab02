@@ -23,7 +23,9 @@ class TTTComputerPlayer:
 
     def choose_move(self, game):
         "Chooses a random move from the moves available."
-        return random.choice(game.get_valid_moves())
+        move = random.choice(game.get_valid_moves())
+        print(f"{self.name} chooses {move}.")
+        return move
 
     def get_symbol(self, game):
         "Returns this player's symbol in the game."
