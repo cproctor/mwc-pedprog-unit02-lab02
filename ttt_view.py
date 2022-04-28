@@ -1,8 +1,7 @@
 import click
 
 class TTTView:
-    """Handles user interaction with a tic-tac-toe game.
-    """
+    "Handles user interaction with a tic-tac-toe game."
     greeting = "Welcome to tic-tac-toe"
     goodbye = "Well, that's a wrap."
     divider = "---+---+---"

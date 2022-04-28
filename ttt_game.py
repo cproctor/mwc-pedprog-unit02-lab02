@@ -1,7 +1,5 @@
-
 class TTTGame:
-    """Models a tic-tac-toe game.
-    """
+    "Models a tic-tac-toe game."
 
     def __init__(self, playerX, playerO):
         self.board = [None] * 9
