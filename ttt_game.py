@@ -10,6 +10,7 @@ class TTTGame:
         }
 
     def play_move(self, move):
+        "Updates the game's state by recording a move"
         if not self.is_valid_move(move):
             raise ValueError(f"Illegal move {move} with board {self.board}.")
         self.board[move] = self.get_current_player_symbol()
@@ -20,7 +21,7 @@ class TTTGame:
         return [index for index in range(9) if self.board[index] is None]
 
     def is_valid_move(self, move):
-        "Checks whether a move is valid."
+        "Checks whether a move is valid"
         return move in self.get_valid_moves()
 
     def get_current_player_symbol(self):
