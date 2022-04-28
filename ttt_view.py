@@ -11,9 +11,11 @@ class TTTView:
 
     def greet(self, game):
         "Starts a new game by greeting the players."
+        x_name = game.players['X'].name
+        o_name = game.players['O'].name
         print(self.greeting)
-        print(f"{game.players['X']} will play as X.")
-        print(f"{game.players['O']} will play as O.")
+        print(f"{x_name} will play as X.")
+        print(f"{o_name} will play as O.")
 
     def get_move(self, game):
         "Shows the board and asks the current player for their choice of move."
