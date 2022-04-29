@@ -57,6 +57,12 @@ class TTTView:
         elif game.check_winner('X'):
             winner = game.players['X']
         else:
-            raise Exception("Tried to conclude a game which wasn't over!")
+            winner = None
         print(self.goodbye)
-        print(f"Congratulations to {winner.name}.")
+        if winner:        
+            print(f"Congratulations to {winner.name}.")
+        else:
+            print("Nobody won this game.")
+
+
+
