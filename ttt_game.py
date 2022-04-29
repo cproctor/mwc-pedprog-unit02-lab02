@@ -37,6 +37,10 @@ class TTTGame:
         
     def is_over(self):
         "Checks whether the game is over."
+        return self.board_is_full() or self.check_winner('X') or self.check_winner('O')
+
+    def board_is_full(self):
+        "Checks whether all the spaces in the board are occupied."
         for space in self.board:
             if space == None:
                 return False
