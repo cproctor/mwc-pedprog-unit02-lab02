@@ -51,9 +51,9 @@ def choose_best_action(state):
 def get_value(state, depth=0, debug=False):
     """Determines the value of the state.
     """
-    if is_win(state, state["player"]):
+    if is_win(state, 'X'):
         return 1
-    elif is_win(state, get_opponent(state["player"])):
+    elif is_win(state, 'O'):
         return -1
     elif is_draw(state):
         return 0
@@ -61,7 +61,6 @@ def get_value(state, depth=0, debug=False):
         action, result, value = choose_best_action(state)
         return value
         
-
 # ================================== HELPERS ==============================================
 
 def get_opponent(player):
