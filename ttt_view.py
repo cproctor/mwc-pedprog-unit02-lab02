@@ -54,8 +54,8 @@ class TTTView:
         """
         if game.check_winner('X'):
             winner = game.players['X']
-        elif game.check_winner('X'):
-            winner = game.players['X']
+        elif game.check_winner('O'):
+            winner = game.players['O']
         else:
             winner = None
         print(self.goodbye)
