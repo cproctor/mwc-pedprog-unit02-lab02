@@ -73,7 +73,7 @@ class TTTGame:
         "Checks whether a move is valid"
         return move in self.get_valid_moves()
 
-    def board_is_full(state, self):
+    def board_is_full(self, state):
         "Checks whether all the spaces in the board are occupied."
         for space in state["board"]:
             if space == '-':
@@ -82,6 +82,14 @@ class TTTGame:
 
     def check_winner(self, state, symbol):
         "Checks whether the player with `symbol` has won the game."
+        symbols = [sym == symbol for sym in state["board"]]
+        for a, b, c in [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6],
+        ]:
+            if symbols[a] and symbols[b] and symbols[c]:
+                return True
         return False
 
 
