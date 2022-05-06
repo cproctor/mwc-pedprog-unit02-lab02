@@ -24,7 +24,7 @@ class TTTComputerPlayer:
 
     def choose_action(self, game):
         "Chooses a random move from the moves available."
-        strategy = LookaheadStrategy(game)
+        strategy = LookaheadStrategy(game, explain=True)
         action = strategy.choose_action(game.state)
         print(f"{self.name} chooses {action}.")
         return action
