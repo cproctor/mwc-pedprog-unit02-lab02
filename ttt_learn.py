@@ -9,16 +9,6 @@
 from itertools import count
 counter = count()
 
-def get_next_state(state, action):
-    """Returns the state which would result from taking an action at a particular state. 
-    """
-    new_board = [space for space in state["board"]]
-    new_board[action] = state["player"]
-    return {
-        "board": new_board,
-        "player": get_opponent(state["player"]),
-    }
-
 def get_actions(state):
     """Given a board state, returns a dictionary whose keys are possible actions and whose 
     values are the resulting state from each action. If the game is over, returns an empty
@@ -29,7 +19,7 @@ def get_actions(state):
     else:
         actions = {}
         for i in range(9):
-            if state["board"][i] is None or state["board"][i] == '-':
+            if state["board"][i] is None or state["board"][i] == ' ':
                 actions[i] = get_next_state(state, i)
         return actions
 
@@ -72,34 +62,6 @@ def get_value(state, depth=0, explain=False):
 # ================================== HELPERS ==============================================
 # =========================================================================================
 
-def get_opponent(player):
-    "Returns 'X' when player is 'O' and 'O' when player is 'X'"
-    if player == 'X':
-        return 'O'
-    elif player == 'O':
-        return 'X'
-    else:
-        raise ValueError(f"Unrecognized player {player}")
-
-def is_over(state):
-    "Returns True if the game is over"
-    return is_draw(state) or is_win(state, 'X') or is_win(state, 'O')
-
-def is_draw(state):
-    "Returns True if the game ended in a draw."
-    for space in state["board"]:
-        if space is None or space == '-':
-            return False
-    return True
-    
-def is_win(state, player):
-    "Returns True if `player` has won the game."
-    win_lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0, 4, 8], [2, 4, 6]]
-    for a, b, c in win_lines:
-        if state["board"][a] == player and state["board"][b] == player and state["board"][c] == player:
-            return True
-    return False
-
 def pose_question(state, index, depth):
     "Logs a question asking about a player's best move at a state."
     board = format_board_inline(state['board'])
@@ -114,8 +76,3 @@ def log(message, index, depth):
     "Prints a message at the appropriate depth, with each message numbered."
     indent = '  ' * depth
     print(f"{indent}{index}. {message}")
-
-def format_board_inline(board):
-    "Formats a board like '[ OOX | -X- | --- ]' "
-    symbols = [sym or '-' for sym in board]
-    return '[ ' + ' | '.join([''.join(symbols[:3]), ''.join(symbols[3:6]), ''.join(symbols[6:])]) + ' ]'

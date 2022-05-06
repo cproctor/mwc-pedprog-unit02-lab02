@@ -9,6 +9,6 @@ view = TTTView()
 
 view.greet(game)
 while not game.is_over():
-    move = view.get_move(game)
-    game.play_move(move)
+    action = view.get_action(game)
+    game.play_action(action)
 view.conclude(game)

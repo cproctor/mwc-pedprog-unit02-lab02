@@ -17,18 +17,19 @@ class TTTView:
         print(f"{x_name} will play as X.")
         print(f"{o_name} will play as O.")
 
-    def get_move(self, game):
-        "Shows the board and asks the current player for their choice of move."
+    def get_action(self, game):
+        "Shows the board and asks the current player for their choice of action."
         self.print_board_with_options(game)
-        player = game.get_current_player()
+        current_player_symbol = game.state["player"]
+        player = game.players[current_player_symbol]
         print(f"{player.name}, it's your move.")
-        return player.choose_move(game)
+        return player.choose_action(game)
 
     def print_board_with_options(self, game):
         "Prints the current board, showing indices of available spaces"
         print(self.format_row(game, [0, 1, 2]))
         print(self.divider)
-        print(self.format_row(game, [3, 4, 6]))
+        print(self.format_row(game, [3, 4, 5]))
         print(self.divider)
         print(self.format_row(game, [6, 7, 8]))
 
@@ -42,9 +43,9 @@ class TTTView:
         If the game board already has a symbol in that space, formats that value for the Terminal.
         If the space is empty, instead formats the index of the space. 
         """
-        if game.board[index] == 'X':
+        if game.state["board"][index] == 'X':
             return click.style('X', fg=self.x_color)
-        elif game.board[index] == 'O':
+        elif game.state["board"][index] == 'O':
             return click.style('O', fg=self.o_color)
         else:
             return click.style(index, fg=self.option_color)
@@ -52,6 +53,7 @@ class TTTView:
     def conclude(self, game):
         """Says goodbye.
         """
+        self.print_board_with_options(game)
         if game.check_winner('X'):
             winner = game.players['X']
         elif game.check_winner('O'):

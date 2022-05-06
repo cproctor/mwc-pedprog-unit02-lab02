@@ -1,4 +1,5 @@
 from click import Choice, prompt
+from strategy import RandomStrategy
 import random
 
 class TTTHumanPlayer:
@@ -8,9 +9,9 @@ class TTTHumanPlayer:
         "Sets up the player."
         self.name = name
 
-    def choose_move(self, game):
-        "Chooses a move by prompting the player for a choice."
-        choices = Choice([str(i) for i in game.get_valid_moves()])
+    def choose_action(self, game):
+        "Chooses an action by prompting the player for a choice."
+        choices = Choice([str(i) for i in game.get_actions(game.state)])
         move = prompt("> ", type=choices, show_choices=False)
         return int(move)
 
@@ -21,10 +22,11 @@ class TTTComputerPlayer:
         "Sets up the player."
         self.name = name
 
-    def choose_move(self, game):
+    def choose_action(self, game):
         "Chooses a random move from the moves available."
-        move = random.choice(game.get_valid_moves())
-        print(f"{self.name} chooses {move}.")
+        strategy = RandomStrategy(game)
+        action = strategy.choose_action(game.state)
+        print(f"{self.name} chooses {action}.")
         return move
 
     def get_symbol(self, game):
