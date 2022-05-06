@@ -44,7 +44,7 @@ class LookaheadStrategy:
         self.deterministic = deterministic
         self.explain = explain
 
-    def choose_action(self, state):
+    def choose_action(self, state, depth=0):
         """Given a state, chooses an action.
         This is the most important method of a Strategy, corresponding to the situation where
         it's a player's turn to play a game and she needs to decide what to do. 
@@ -57,11 +57,13 @@ class LookaheadStrategy:
 
         Once we know which reward is best, we choose an action which will lead to that reward.
         """
+        if self.explain:
+            self.print_explanation(state, depth)
         possible_actions = self.game.get_actions(state)
         rewards = {}
         for action in possible_actions:
             future_state = self.game.get_next_state(state, action)
-            rewards[action] = self.game.get_reward(future_state)
+            rewards[action] = self.get_current_and_future_reward(future_state, depth=depth)
         objective = self.game.get_objective(state)
         best_reward = objective(rewards.values())
         best_actions = [action for action in possible_actions if rewards[action] == best_reward]
@@ -70,14 +72,15 @@ class LookaheadStrategy:
         else:
             return choice(best_actions)
 
-    def get_current_and_future_reward(self, state):
+    def get_current_and_future_reward(self, state, depth=0):
         """Calculates the reward from this state, and from all future states which would be 
         reached, assuming all players are using this Strategy.
         """
         reward = self.game.get_reward(state)
         if not self.game.is_over(state):
-            future_state = self.choose_action(state)
-            reward += self.get_current_and_future_reward(future_state)
+            action = self.choose_action(state, depth=depth)
+            future_state = self.game.get_next_state(state, action)
+            reward += self.get_current_and_future_reward(future_state, depth=depth+1)
         return reward
 
     def validate_game(self, game):
@@ -93,6 +96,11 @@ class LookaheadStrategy:
             if not (hasattr(game, method) and isinstance(getattr(game, method), MethodType)):
                 message = f"Game {game} does not have method {method}."
                 raise ValueError(message)
+
+    def print_explanation(self, state, depth):
+        """Prints out the current state of exploration of the state tree"""
+        indent = '  ' * depth
+        print(f"{indent}{state}")
 
 
 
