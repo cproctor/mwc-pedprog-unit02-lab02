@@ -1,9 +1,9 @@
 from ttt_game import TTTGame
 from ttt_view import TTTView
-from ttt_player import TTTHumanPlayer
+from ttt_player import TTTHumanPlayer, TTTComputerPlayer
 
 player0 = TTTHumanPlayer("Player 1")
-player1 = TTTHumanPlayer("Player 2")
+player1 = TTTComputerPlayer("Player 2")
 game = TTTGame(player0, player1)
 view = TTTView()
 

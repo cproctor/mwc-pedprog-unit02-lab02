@@ -1,5 +1,5 @@
 from click import Choice, prompt
-from strategy import RandomStrategy
+from strategy import RandomStrategy, LookaheadStrategy
 import random
 
 class TTTHumanPlayer:
@@ -24,10 +24,10 @@ class TTTComputerPlayer:
 
     def choose_action(self, game):
         "Chooses a random move from the moves available."
-        strategy = RandomStrategy(game)
+        strategy = LookaheadStrategy(game)
         action = strategy.choose_action(game.state)
         print(f"{self.name} chooses {action}.")
-        return move
+        return action
 
     def get_symbol(self, game):
         "Returns this player's symbol in the game."
