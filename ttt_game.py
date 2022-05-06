@@ -20,7 +20,7 @@ class TTTGame:
         In the resulting state, the current player's symbol has been placed 
         in an empty board space, and it is the opposite player's turn.
         """
-        new_board = state["board"]
+        new_board = state["board"].copy()
         new_board[action] = state["player"]
         if state["player"] == "O":
             new_player = "X"
@@ -45,9 +45,9 @@ class TTTGame:
         we set the reward for X winning to 1 and the reward for O winning to -1.
         All other states (unfinished games and games which ended in a draw) are worth 0.
         """
-        if self.check_winner('X'):
+        if self.check_winner(state, 'X'):
             return 1
-        elif self.check_winner('O'):
+        elif self.check_winner(state, 'O'):
             return -1
         else:
             return 0
