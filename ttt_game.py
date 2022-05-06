@@ -20,7 +20,7 @@ class TTTGame:
         In the resulting state, the current player's symbol has been placed 
         in an empty board space, and it is the opposite player's turn.
         """
-        new_board = state["board"]
+        new_board = state["board"].copy()
         new_board[action] = state["player"]
         if state["player"] == "O":
             new_player = "X"
