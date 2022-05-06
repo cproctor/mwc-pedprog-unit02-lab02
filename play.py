@@ -8,7 +8,7 @@ game = TTTGame(player0, player1)
 view = TTTView()
 
 view.greet(game)
-while not game.is_over():
+while not game.is_over(game.state):
     action = view.get_action(game)
     game.play_action(action)
 view.conclude(game)

@@ -54,9 +54,9 @@ class TTTView:
         """Says goodbye.
         """
         self.print_board_with_options(game)
-        if game.check_winner('X'):
+        if game.check_winner(game.state, 'X'):
             winner = game.players['X']
-        elif game.check_winner('O'):
+        elif game.check_winner(game.state, 'O'):
             winner = game.players['O']
         else:
             winner = None
