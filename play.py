@@ -4,11 +4,12 @@ from ttt_player import TTTHumanPlayer
 
 player0 = TTTHumanPlayer("Player 1")
 player1 = TTTHumanPlayer("Player 2")
-game = TTTGame(player0, player1)
-view = TTTView()
+game = TTTGame()
+view = TTTView(player0, player1)
 
-view.greet(game)
-while not game.is_over(game.state):
-    action = view.get_action(game)
-    game.play_action(action)
-view.conclude(game)
+state = game.get_initial_state()
+view.greet()
+while not game.is_over(state):
+    action = view.get_action(state)
+    state = game.get_next_state(state, action)
+view.conclude(state)
