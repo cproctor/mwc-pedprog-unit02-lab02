@@ -1,4 +1,4 @@
-from ttt_game import TTTGame
+from ttt.game import TTTGame
 import click
 
 class TTTView:
@@ -64,7 +64,7 @@ class TTTView:
         self.print_board(state)
         if self.game.check_winner(state, 'X'):
             winner = self.players['X']
-        elif self.game.check_winner(game.state, 'O'):
+        elif self.game.check_winner(state, 'O'):
             winner = self.players['O']
         else:
             winner = None
