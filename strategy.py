@@ -77,8 +77,8 @@ class LookaheadStrategy:
         reached, assuming all players are using this Strategy.
         """
         reward = self.game.get_reward(state)
-        if not self.game.is_over(state):
-            action = self.choose_action(state, depth=depth)
+        if (self.max_depth is None or depth <= self.max_depth) and not self.game.is_over(state):
+            action = self.choose_action(state, depth=depth+1)
             future_state = self.game.get_next_state(state, action)
             reward += self.get_current_and_future_reward(future_state, depth=depth+1)
         return reward
