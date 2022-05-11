@@ -63,9 +63,9 @@ class TTTView:
         """
         self.print_board(state)
         if self.game.check_winner(state, 'X'):
-            winner = game.players['X']
+            winner = self.players['X']
         elif self.game.check_winner(game.state, 'O'):
-            winner = game.players['O']
+            winner = self.players['O']
         else:
             winner = None
         print(self.goodbye)
