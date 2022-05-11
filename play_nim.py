@@ -1,6 +1,6 @@
-from nim_game import NimGame
-from nim_view import NimView
-from nim_player import HumanNimPlayer, ComputerNimPlayer
+from nim.game import NimGame
+from nim.view import NimView
+from nim.player import HumanNimPlayer, ComputerNimPlayer
 
 player0 = HumanNimPlayer(input("What's your name? "))
 player1 = ComputerNimPlayer("BOT")

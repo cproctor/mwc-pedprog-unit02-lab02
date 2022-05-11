@@ -1,4 +1,4 @@
-from nim_game import NimGame
+from nim.game import NimGame
 
 class NimView:
     def __init__(self, player0, player1):

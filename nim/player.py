@@ -1,5 +1,5 @@
-from nim_game import NimGame
-from strategy import LookaheadStrategy
+from nim.game import NimGame
+from strategy.lookahead_strategy import LookaheadStrategy
 
 class HumanNimPlayer:
     def __init__(self, name):
