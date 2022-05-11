@@ -1,5 +1,6 @@
 from click import Choice, prompt
-from strategy import RandomStrategy, LookaheadStrategy
+from strategy import RandomStrategy
+from ttt_game import TTTGame
 import random
 
 class TTTHumanPlayer:
@@ -8,12 +9,14 @@ class TTTHumanPlayer:
     def __init__(self, name):
         "Sets up the player."
         self.name = name
+        self.game = TTTGame()
 
-    def choose_action(self, game):
+    def choose_action(self, state):
         "Chooses an action by prompting the player for a choice."
-        choices = Choice([str(i) for i in game.get_actions(game.state)])
-        move = prompt("> ", type=choices, show_choices=False)
-        return int(move)
+        actions = self.game.get_actions(state)
+        choices = Choice([str(action) for action in actions])
+        action = int(prompt("> ", type=choices, show_choices=False))
+        return action
 
 class TTTComputerPlayer:
     "A computer tic tac toe player"
@@ -21,19 +24,10 @@ class TTTComputerPlayer:
     def __init__(self, name):
         "Sets up the player."
         self.name = name
+        self.strategy = RandomStrategy(TTTGame())
 
-    def choose_action(self, game):
+    def choose_action(self, state):
         "Chooses a random move from the moves available."
-        strategy = LookaheadStrategy(game)
-        action = strategy.choose_action(game.state)
+        action = self.strategy.choose_action(state)
         print(f"{self.name} chooses {action}.")
         return action
-
-    def get_symbol(self, game):
-        "Returns this player's symbol in the game."
-        if game.players['X'] == self:
-            return 'X'
-        elif game.players['O'] == self:
-            return 'O'
-        else:
-            raise ValueError(f"Player {self.name} isn't in this game!")

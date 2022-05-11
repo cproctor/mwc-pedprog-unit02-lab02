@@ -1,3 +1,4 @@
+from ttt_game import TTTGame
 import click
 
 class TTTView:
@@ -9,54 +10,61 @@ class TTTView:
     o_color = "blue"
     option_color = "bright_black"
 
-    def greet(self, game):
+    def __init__(self, playerX, playerO):
+        self.game = TTTGame()
+        self.players = {
+            "X": playerX, 
+            "O": playerO,
+        }
+
+    def greet(self):
         "Starts a new game by greeting the players."
-        x_name = game.players['X'].name
-        o_name = game.players['O'].name
+        x_name = self.players['X'].name
+        o_name = self.players['O'].name
         print(self.greeting)
         print(f"{x_name} will play as X.")
         print(f"{o_name} will play as O.")
 
-    def get_action(self, game):
+    def get_action(self, state):
         "Shows the board and asks the current player for their choice of action."
-        self.print_board_with_options(game)
-        current_player_symbol = game.state["player"]
-        player = game.players[current_player_symbol]
+        self.print_board(state)
+        current_player_symbol = 'X' if state["player_x"] else 'O'
+        player = self.players[current_player_symbol]
         print(f"{player.name}, it's your move.")
-        return player.choose_action(game)
+        return player.choose_action(state)
 
-    def print_board_with_options(self, game):
+    def print_board(self, state):
         "Prints the current board, showing indices of available spaces"
-        print(self.format_row(game, [0, 1, 2]))
+        print(self.format_row(state, [0, 1, 2]))
         print(self.divider)
-        print(self.format_row(game, [3, 4, 5]))
+        print(self.format_row(state, [3, 4, 5]))
         print(self.divider)
-        print(self.format_row(game, [6, 7, 8]))
+        print(self.format_row(state, [6, 7, 8]))
 
-    def format_row(self, game, indices):
+    def format_row(self, state, indices):
         "Returns a string for one row in the board, like ' X | O | X '"
-        spaces = [self.format_value(game, i) for i in indices]
+        spaces = [self.format_value(state, i) for i in indices]
         return f" {spaces[0]} | {spaces[1]} | {spaces[2]} "
 
-    def format_value(self, game, index):
+    def format_value(self, state, index):
         """Formats the value for a single space on the board. 
         If the game board already has a symbol in that space, formats that value for the Terminal.
         If the space is empty, instead formats the index of the space. 
         """
-        if game.state["board"][index] == 'X':
+        if state["board"][index] == 'X':
             return click.style('X', fg=self.x_color)
-        elif game.state["board"][index] == 'O':
+        elif state["board"][index] == 'O':
             return click.style('O', fg=self.o_color)
         else:
             return click.style(index, fg=self.option_color)
 
-    def conclude(self, game):
+    def conclude(self, state):
         """Says goodbye.
         """
-        self.print_board_with_options(game)
-        if game.check_winner(game.state, 'X'):
+        self.print_board(state)
+        if self.game.check_winner(state, 'X'):
             winner = game.players['X']
-        elif game.check_winner(game.state, 'O'):
+        elif self.game.check_winner(game.state, 'O'):
             winner = game.players['O']
         else:
             winner = None
@@ -65,6 +73,3 @@ class TTTView:
             print(f"Congratulations to {winner.name}.")
         else:
             print("Nobody won this game.")
-
-
-

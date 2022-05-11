@@ -1,18 +1,11 @@
 class TTTGame:
     "Models a tic-tac-toe game."
 
-    def __init__(self, playerX, playerO):
-        self.state = self.get_initial_state()
-        self.players = {
-            'X': playerX,
-            'O': playerO,
-        }
-
     def get_initial_state(self):
         "Returns the game's initial state."
         return {
             "board": ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-            "player": "X",
+            "player_x": True,
         }
 
     def get_next_state(self, state, action):
@@ -21,14 +14,10 @@ class TTTGame:
         in an empty board space, and it is the opposite player's turn.
         """
         new_board = state["board"].copy()
-        new_board[action] = state["player"]
-        if state["player"] == "O":
-            new_player = "X"
-        else:
-            new_player = "O"
+        new_board[action] = 'X' if state["player_x"] else 'O'
         return {
             "board": new_board,
-            "player": new_player,
+            "player_x": not state["player_x"],
         }
 
     def get_actions(self, state):
@@ -58,20 +47,7 @@ class TTTGame:
         want opposite things, so we set X's objective to the built-in function `max`
         (which chooses the largest number), and we set O's objective to the built-in function `min`.
         """
-        if state["player"] == 'X':
-            return max
-        elif state["player"] == 'O':
-            return min
-        else:
-            raise ValueError(f"Unrecognized player {state['player']}")
-
-    def play_action(self, action):
-        "Plays a move, updating the game's state."
-        self.state = self.get_next_state(self.state, action)
-
-    def is_valid_move(self, move):
-        "Checks whether a move is valid"
-        return move in self.get_valid_moves()
+        return max if state["player_x"] else min
 
     def board_is_full(self, state):
         "Checks whether all the spaces in the board are occupied."
@@ -91,6 +67,3 @@ class TTTGame:
             if symbols[a] and symbols[b] and symbols[c]:
                 return True
         return False
-
-
-
