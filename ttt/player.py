@@ -1,6 +1,6 @@
 from click import Choice, prompt
-from strategy import RandomStrategy
-from ttt_game import TTTGame
+from strategy.random_strategy import RandomStrategy
+from ttt.game import TTTGame
 import random
 
 class TTTHumanPlayer:

@@ -1,6 +1,6 @@
-from ttt_game import TTTGame
-from ttt_view import TTTView
-from ttt_player import TTTHumanPlayer
+from ttt.game import TTTGame
+from ttt.view import TTTView
+from ttt.player import TTTHumanPlayer
 
 player0 = TTTHumanPlayer("Player 1")
 player1 = TTTHumanPlayer("Player 2")
