@@ -46,8 +46,6 @@ class LookaheadStrategy:
 
         Once we know which reward is best, we choose an action which will lead to that reward.
         """
-        if self.explain:
-            self.print_explanation(state, depth)
         possible_actions = self.game.get_actions(state)
         rewards = {}
         for action in possible_actions:
@@ -57,9 +55,12 @@ class LookaheadStrategy:
         best_reward = objective(rewards.values())
         best_actions = [action for action in possible_actions if rewards[action] == best_reward]
         if self.deterministic:
-            return best_actions[0]
+            action = best_actions[0]
         else:
-            return choice(best_actions)
+            action = choice(best_actions)
+        if self.explain:
+            self.print_explanation(state, action, rewards[action], depth)
+        return action
 
     def get_current_and_future_reward(self, state, depth=0):
         """Calculates the reward from this state, and from all future states which would be 
@@ -86,10 +87,10 @@ class LookaheadStrategy:
                 message = f"Game {game} does not have method {method}."
                 raise ValueError(message)
 
-    def print_explanation(self, state, depth):
+    def print_explanation(self, state, action, reward, depth):
         """Prints out the current state of exploration of the state tree"""
-        indent = '  ' * depth
-        print(f"{indent}{state}")
+        indent = '│ ' * (max(0, depth-1)) + ('├ ' if depth > 0 else '')
+        print(f"{indent}[{reward}] Best action: {action} {state}")
 
 
 
